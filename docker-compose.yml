@@ -4,6 +4,8 @@ services:
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
     container_name: namenode
+    ports:
+      - 50070:50070
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
     environment:
