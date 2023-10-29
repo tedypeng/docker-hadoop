@@ -47,6 +47,8 @@ services:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop2.7.4-java8
     container_name: historyserver
     restart: always
+    ports:
+    - 8188:8188
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
     volumes:
