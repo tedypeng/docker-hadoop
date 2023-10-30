@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - /dimples/volumes/prometheus/:/etc/prometheus/
+    ports:
+      - 9091:9090
+    restart: on-failure
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3001:3000
+  node_exporter:
+    image: prom/node-exporter
+    container_name: node_exporter
+    ports:
+      - 9100:9100
+  # redis_exporter:
+  #   image: oliver006/redis_exporter
+  #   container_name: redis_exporter
+  #   command:
+  #     - "--redis.addr=redis://192.168.36.228:3306"
+  #     - "--redis.password 'YDJT@cyy0928'"    # 认证密码，如果没有密码，该参数不需要
+  #   ports:
+  #     - 9101:9121
+  #   restart: on-failure
+  mysql_exporter:
+    image: prom/mysqld-exporter
+    container_name: mysqld-exporter
+    command:
+      - "--mysqld.username=root:YDJT@cyy0928"
+      - "--mysqld.address=192.168.36.228:3306"
+    ports:
+      - 9102:9104
+  cadvisor:
+    image: google/cadvisor
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 9103:8080
+  process_exporter:
+    image: ncabatoff/process-exporter
+    container_name: process_exporter
+    restart: always
+    dns_search: .
+    volumes:
+      - ./proc:/host/proc
+      - ./process_exporter/config:/config
+    ports:
+      - 9256:9256
+    tty: true
+    command: /bin/process-exporter --procfs /host/proc -config.path /dimples/volumes/prometheus/process_exporter/config/process-exporter.yml
