@@ -63,3 +63,6 @@ volumes:
   hadoop_namenode:
   hadoop_datanode:
   hadoop_historyserver:
+
+networks:
+  common_network:
