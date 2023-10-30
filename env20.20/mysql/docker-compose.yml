@@ -1,25 +1,13 @@
 version: '2.4'
 services:
-  #for_32.58智慧园区开发环境
-  mysql01:
+
+  mysql3306:
     extends:
       file: ../../common/mysql/compose.yml
       service: mysql
-    container_name: mysql01
     ports:
       - 3306:3306
     volumes:
-      - ../../common/mysql/mysql-init-sql/infrastructure_init_gt_v1.4.0.sql:/docker-entrypoint-initdb.d/infrastructure_init_gt_v1.4.0.sql
+     # - ../../common/mysql/mysql-init-sql/root_init.sql:/docker-entrypoint-initdb.d/root_init.sql
       - /data/common/database/mysql/data:/var/lib/mysql
       - /data/common/database/mysql/log:/var/log/mysql
-  mysql02:
-    extends:
-      file: ../../common/mysql/compose.yml
-      service: mysql
-    container_name: mysql02
-    ports:
-      - 3307:3306
-    volumes:
-      - ../../common/mysql/mysql-init-sql/infrastructure_init_lt_v1.3.0.sql:/docker-entrypoint-initdb.d/infrastructure_init_lt_v1.3.0.sql
-      - /data/common/database/mysql02/data:/var/lib/mysql
-      - /data/common/database/mysql02/log:/var/log/mysql
