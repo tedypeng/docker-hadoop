@@ -1,0 +1,12 @@
+version: '2.4'
+services:
+  mysql:
+    image: mysql:5.7.43
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./mysql-init-sql/root_init.sql:/docker-entrypoint-initdb.d/root_init.sql
+      - ./my.cnf:/etc/my.cnf
+    privileged: true

@@ -1,0 +1,20 @@
+version: '2.1'
+services:
+  oracle_11g:
+    image: registry.cn-hangzhou.aliyuncs.com/helowin/oracle_11g
+    container_name: oracle_11g
+    environment:
+      - TZ=Asia/Shanghai
+      - ORACLE_PWD=Root123456
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/oracle:/data/oracle
+    #      - ./data/profile:/etc/profile
+
+    restart: always
+    #shm_size: "1g"
+    #ports:
+    #      - "1521:1521"
+    #      - "8090:8080"
+
+
