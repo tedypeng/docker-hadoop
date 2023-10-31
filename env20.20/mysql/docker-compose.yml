@@ -11,5 +11,9 @@ services:
      # - ../../common/mysql/mysql-init-sql/root_init.sql:/docker-entrypoint-initdb.d/root_init.sql
       - /data/common/database/mysql/data:/var/lib/mysql
       - /data/common/database/mysql/log:/var/log/mysql
+
+    networks:
+      - common_network
 networks:
   common_network:
+     external: true
