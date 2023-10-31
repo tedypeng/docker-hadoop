@@ -3,7 +3,6 @@ version: "3"
 services:
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
-    container_name: namenode
     restart: always
     ports:
       - 50070:50070
@@ -13,18 +12,23 @@ services:
       - CLUSTER_NAME=test
     env_file:
       - ./hadoop.env
-
+    networks:
+      - common_network
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
     container_name: datanode
     restart: always
+    ports:
+      - "50075:50075"
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
     environment:
       SERVICE_PRECONDITION: "namenode:50070"
     env_file:
       - ./hadoop.env
-  
+
+    networks:
+      - common_network
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop2.7.4-java8
     container_name: resourcemanager
@@ -57,7 +61,37 @@ services:
       - hadoop_historyserver:/hadoop/yarn/timeline
     env_file:
       - ./hadoop.env
-  
+
+
+  hive-server:
+    image: bde2020/hadoop-hive:2.3.2
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"
+    networks:
+      - common_network
+  hive-metastore:
+    image: bde2020/hadoop-hive:2.3.2
+    env_file:
+      - ./hadoop-hive.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+    networks:
+      - common_network
+  hive-metastore-postgresql:
+    image: bde2020/hive-postgres:2.3.2
+    networks:
+      - common_network
+
+
+
+
+
 volumes:
   hadoop_namenode:
   hadoop_datanode:
