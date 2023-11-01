@@ -88,7 +88,7 @@ services:
     image: bde2020/hadoop-hive:2.3.2
     env_file:
       - ./hadoop.env
-    command: /opt/hive/bin/schematool -dbType mysql -initSchema
+    command: /opt/hive/bin/schematool -dbType mysql -initSchema --verbose
     environment:
       SERVICE_PRECONDITION: "hive-metastore-mysql:3306"
     networks:
