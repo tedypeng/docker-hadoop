@@ -1,4 +1,4 @@
-FROM debian:10-slim
+FROM ubuntu:20.04
 
 MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
 MAINTAINER Giannis Mouchakis <gmouchakis@iit.demokritos.gr>
