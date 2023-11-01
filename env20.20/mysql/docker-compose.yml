@@ -1,7 +1,7 @@
 version: '2.4'
 services:
 
-  mysql3306:
+  hive-metastore-mysql:
     extends:
       file: ../../common/mysql/compose.yml
       service: mysql
