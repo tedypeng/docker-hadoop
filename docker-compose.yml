@@ -16,7 +16,6 @@ services:
       - common_network
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
-    container_name: datanode
     restart: always
     ports:
       - "50075:50075"
@@ -26,12 +25,10 @@ services:
       SERVICE_PRECONDITION: "namenode:50070"
     env_file:
       - ./hadoop.env
-
     networks:
       - common_network
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop2.7.4-java8
-    container_name: resourcemanager
     restart: always
     ports:
     - 8088:8088
@@ -39,19 +36,19 @@ services:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075"
     env_file:
       - ./hadoop.env
-
-  nodemanager1:
+    networks:
+      - common_network
+  nodemanager:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop2.7.4-java8
-    container_name: nodemanager
     restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
     env_file:
       - ./hadoop.env
-  
+    networks:
+      - common_network
   historyserver:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop2.7.4-java8
-    container_name: historyserver
     restart: always
     ports:
     - 8188:8188
@@ -61,7 +58,8 @@ services:
       - hadoop_historyserver:/hadoop/yarn/timeline
     env_file:
       - ./hadoop.env
-
+    networks:
+      - common_network
 
   hive-server:
     image: bde2020/hadoop-hive:2.3.2
