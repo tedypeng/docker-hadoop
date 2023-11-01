@@ -68,7 +68,7 @@ services:
     env_file:
       - ./hadoop.env
     environment:
-      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:mysql://hive-metastore/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
     ports:
       - 10000:10000
@@ -80,15 +80,10 @@ services:
       - ./hadoop.env
     command: /opt/hive/bin/hive --service metastore
     environment:
-      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-mysql:3306"
     networks:
       - common_network
-  hive-metastore-postgresql:
-    image: bde2020/hive-postgresql:2.3.2
-    ports:
-      - 5432:5432
-    networks:
-      - common_network
+
 
 
 
