@@ -18,7 +18,7 @@ services:
     image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
     restart: always
     ports:
-      - "50075:50075"
+      - 50075:50075
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
     environment:
@@ -41,6 +41,8 @@ services:
   nodemanager:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop2.7.4-java8
     restart: always
+    ports:
+      - 8042:8042
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
     env_file:
@@ -69,7 +71,7 @@ services:
       HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
     ports:
-      - "10000:10000"
+      - 10000:10000
     networks:
       - common_network
   hive-metastore:
@@ -83,6 +85,8 @@ services:
       - common_network
   hive-metastore-postgresql:
     image: bde2020/hive-postgres:2.3.2
+    ports:
+      - 5432:5432
     networks:
       - common_network
 
