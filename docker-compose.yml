@@ -84,6 +84,15 @@ services:
     networks:
       - common_network
 
+  hive-metastore-init:
+    image: bde2020/hadoop-hive:2.3.2
+    env_file:
+      - ./hadoop.env
+    command: /opt/hive/bin/schematool -dbType mysql -initSchema
+    environment:
+      SERVICE_PRECONDITION: "hive-metastore-mysql:3306"
+    networks:
+      - common_network
 
 
 
