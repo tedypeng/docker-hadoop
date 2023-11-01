@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y wget procps && \
 #hive-site.xml should be copied to $SPARK_HOME/conf folder
 
 #Custom configuration goes here
+COPY mysql-connector-java-5.1.49.jar $HIVE_HOME/lib/
 ADD conf/hive-site.xml $HIVE_HOME/conf
 ADD conf/beeline-log4j2.properties $HIVE_HOME/conf
 ADD conf/hive-env.sh $HIVE_HOME/conf
