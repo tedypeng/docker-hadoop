@@ -84,7 +84,7 @@ services:
     networks:
       - common_network
   hive-metastore-postgresql:
-    image: bde2020/hive-postgres:2.3.2
+    image: bde2020/hive-postgresql:2.3.2
     ports:
       - 5432:5432
     networks:
